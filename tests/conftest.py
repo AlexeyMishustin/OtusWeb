@@ -43,6 +43,7 @@ def browser(parser):
         browser = webdriver.Chrome(service=Service(), options=options)
     else:
         raise ValueError(f"Browser {browser_name} not used")
+    browser.get("http://192.168.1.147:8081/en-gb?route=common/home")
     yield browser
     browser.close()
 
