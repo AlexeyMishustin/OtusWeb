@@ -11,12 +11,12 @@ class BasePage:
     def get_value_first_price(self):
         return self.browser.find_element(By.CSS_SELECTOR, '.price-new').text
 
-    def set_currency_for_euro(self, value):
+    def set_currency(self, value):
         AC(self.browser).move_to_element(self.browser.find_element(By.CSS_SELECTOR, ".dropdown")).click().perform()
-        AC(self.browser).move_to_element(self.browser.find_element(By.LINK_TEXT, f"{value}")).click().perform()
+        AC(self.browser).move_to_element(self.browser.find_element(By.LINK_TEXT, value)).click().perform()
 
     def wait_load_title(self, timeout, title_name):
-        WebDriverWait(self.browser, timeout=timeout).until(EC.title_is(f"{title_name}"))
+        WebDriverWait(self.browser, timeout=timeout).until(EC.title_is(title_name))
 
     def switch_and_accept_alert(self):
         self.alert = self.browser.switch_to.alert
@@ -24,4 +24,4 @@ class BasePage:
 
     def set_new_window(self, title):
         self.browser.switch_to.window(self.browser.window_handles[0])
-        WebDriverWait(self.browser, timeout=3).until(EC.title_is(f"{title}"))
+        WebDriverWait(self.browser, timeout=3).until(EC.title_is(title))

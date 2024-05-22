@@ -19,14 +19,14 @@ class TestPart3:
 
     def test_value_for_main(self, browser):
         value_first_element = BasePage(browser).get_value_first_price()
-        BasePage(browser).set_currency_for_euro()
+        BasePage(browser).set_currency(value="€ Euro")
         new_value_first_element = BasePage(browser).get_value_first_price()
         assert value_first_element != new_value_first_element
 
     def test_value_for_catalog(self, browser):
         browser.get("http://192.168.1.147:8081/en-gb/catalog/desktops")
         value_first_element = BasePage(browser).get_value_first_price()
-        BasePage(browser).set_currency_for_euro(value="€ Euro")
+        BasePage(browser).set_currency(value="€ Euro")
         new_value_first_element = BasePage(browser).get_value_first_price()
         assert value_first_element != new_value_first_element
 
@@ -55,4 +55,3 @@ class TestHW_PageObject:
         RegistrPage(browser).set_data_user()
         BasePage(browser).set_new_window("Your Account Has Been Created!")
         RegistrPage(browser).continue_after_registr()
-        time.sleep(3)

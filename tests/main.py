@@ -21,7 +21,7 @@ class Test_MainPage:
                          "MP3 Players"]
         navigation = WebDriverWait(browser, 1).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#menu")))
         for item in list_item_bar:
-            navigation.find_element(By.LINK_TEXT, f"{item}")
+            navigation.find_element(By.LINK_TEXT, item)
 
     def test_open_catalog(self, browser):
         browser.get("http://192.168.1.147:8081/en-gb?route=common/home")

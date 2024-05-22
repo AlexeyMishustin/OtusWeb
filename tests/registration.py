@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+
+
 class TestRegistration:
     def test_check_exists_element(self, browser):
         browser.get("http://192.168.1.147:8081/en-gb?route=account/register")

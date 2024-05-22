@@ -1,4 +1,4 @@
-import time
+import time,logging
 
 import pytest
 from selenium import webdriver
@@ -15,6 +15,7 @@ def parser(request):
 def pytest_addoption(parser):
     parser.addoption("--url", help="set url browser", default="http://localhost:8081/")
     parser.addoption("--browser", choices=["edge", "chrome"], help="set browser", default="chrome")
+    parser.addoption("--level_log", choices=["info","debug","warning","error","critical"],default="DEBUG")
 
 @pytest.fixture()
 def browser_dynamic(parser):
@@ -33,8 +34,17 @@ def browser_dynamic(parser):
     browser.close()
 
 @pytest.fixture()
-def browser(parser):
+def browser(parser,request):
     browser_name = parser("--browser")
+
+    level_log = parser("--level_log")
+    logger = logging.getLogger(request.node.name)
+    file_handler = logging.FileHandler(f"../logs/{request.node.name}.log")
+    file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+    logger.addHandler(file_handler)
+    logger.setLevel(level=f"{level_log}")
+
+    logger.info("config browser start")
     options = Options()
     if browser_name == "edge":
         options.binary_location = 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
@@ -44,6 +54,10 @@ def browser(parser):
     else:
         raise ValueError(f"Browser {browser_name} not used")
     browser.get("http://192.168.1.147:8081/en-gb?route=common/home")
+    browser.logger = logger
+
+    logger.info("browser start")
+
     yield browser
     browser.close()
 
